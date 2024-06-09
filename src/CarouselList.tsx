@@ -23,6 +23,7 @@ export interface BaseCarouselList {
   width: number;
   height: number;
   style?: StyleProp<ViewStyle>;
+  isShowMinorList?: boolean;
 }
 
 export interface BaseCarouselRef {
@@ -31,7 +32,7 @@ export interface BaseCarouselRef {
 
 export const CarouselList = forwardRef<BaseCarouselRef, BaseCarouselList>(
   (props, ref) => {
-    const { data, style, width, height } = props;
+    const { data, style, width, height, isShowMinorList = true } = props;
     const [currentIndex, setCurrentIndex] = useState(0);
     const mainRef = useAnimatedRef<Animated.ScrollView>();
     const minorRef = useAnimatedRef<Animated.ScrollView>();
@@ -127,38 +128,40 @@ export const CarouselList = forwardRef<BaseCarouselRef, BaseCarouselList>(
             );
           })}
         </Animated.ScrollView>
-        <Animated.ScrollView
-          ref={minorRef}
-          style={$minorContainer}
-          horizontal={true}
-          disableIntervalMomentum={true}
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled={true}
-        >
-          {data.map((item, index) => {
-            const minorStatus = index === currentIndex;
+        {isShowMinorList && (
+          <Animated.ScrollView
+            ref={minorRef}
+            style={$minorContainer}
+            horizontal={true}
+            disableIntervalMomentum={true}
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled={true}
+          >
+            {data.map((item, index) => {
+              const minorStatus = index === currentIndex;
 
-            const $minorImageStyle: StyleProp<ImageStyle> = [
-              $minorImage,
-              minorStatus && $selectImageStyle,
-            ];
+              const $minorImageStyle: StyleProp<ImageStyle> = [
+                $minorImage,
+                minorStatus && $selectImageStyle,
+              ];
 
-            return (
-              <TouchableOpacity
-                onPress={() => handleIndexChange(index)}
-                key={index}
-                disabled={minorStatus}
-              >
-                <AutoImage
-                  source={item}
-                  style={$minorImageStyle}
-                  maxHeight={MINOR_ICON_SIZE}
-                  maxWidth={MINOR_ICON_SIZE}
-                />
-              </TouchableOpacity>
-            );
-          })}
-        </Animated.ScrollView>
+              return (
+                <TouchableOpacity
+                  onPress={() => handleIndexChange(index)}
+                  key={index}
+                  disabled={minorStatus}
+                >
+                  <AutoImage
+                    source={item}
+                    style={$minorImageStyle}
+                    maxHeight={MINOR_ICON_SIZE}
+                    maxWidth={MINOR_ICON_SIZE}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </Animated.ScrollView>
+        )}
       </View>
     );
   }

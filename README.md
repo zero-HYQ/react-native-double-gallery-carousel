@@ -3,7 +3,7 @@
 `react-native-double-gallery-carousel` is available for android and ios as well as the web
 
 ## Example
- ![Example](example/assets/demo.gif) 
+<img src="example/assets/demo.gif" alt="Example" width="300" height="550" />
 
 ## Installation
 
@@ -34,6 +34,7 @@ import { CarouselList } from 'react-native-double-gallery-carousel';
 | style  | no       | ViewStyle             | container style                                                                                      |
 | width  | yes      | number                | container image width `It is recommended that the width be the same as the container style width`    |
 | height | yes      | number                | container image height `It is recommended that the height be the same as the container style height` |
+| isShowMinorList | no      | boolean              | Hide the bottom carousel |
 
 ## Example code
 
